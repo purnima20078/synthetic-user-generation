@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Production build artifacts
+dist/
+**/dist/
+build/
+**/build/
+coverage/
+
+# Environment files and credentials (DO NOT COMMIT)
+.env
+.env*
+**/.env
+**/.env*
+!.env.example
+!**/.env.example
+*.pem
+*.key
+*.cert
+credentials.json
+firebase-applet-config.json
+**/firebase-applet-config.json
+
+# Python
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+**/.venv/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/

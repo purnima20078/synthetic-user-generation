@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Synthetic User Generation2",
+  "description": "AI-powered synthetic user research platform for generating realistic personas, running surveys \u0026 multi-turn interviews, and extracting actionable product validation insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

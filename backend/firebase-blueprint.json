@@ -1,0 +1,184 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered researcher or product manager profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Workspace": {
+      "title": "Workspace",
+      "description": "Research project workspace container",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "product_name": { "type": "string" },
+        "target_audience": { "type": "object" },
+        "research_objective": { "type": "string" },
+        "status": { "type": "string" },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      },
+      "required": ["id", "userId", "product_name"]
+    },
+    "Persona": {
+      "title": "Persona",
+      "description": "Synthetic user persona generated for research validation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "name": { "type": "string" },
+        "age": { "type": "number" },
+        "gender": { "type": "string" },
+        "occupation": { "type": "string" },
+        "location": { "type": "string" },
+        "income": { "type": "string" },
+        "segment": { "type": "string" },
+        "bio": { "type": "string" },
+        "avatar_seed": { "type": "string" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["id", "workspace_id", "name"]
+    },
+    "Survey": {
+      "title": "Survey",
+      "description": "Cohort-wide survey containing questions asked to all personas",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string" },
+        "questions": { "type": "array" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["id", "workspace_id", "title"]
+    },
+    "SurveyResponse": {
+      "title": "SurveyResponse",
+      "description": "Persona response to a cohort survey",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "survey_id": { "type": "string" },
+        "persona_id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "answers": { "type": "array" },
+        "sentiment_score": { "type": "number" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["id", "survey_id", "persona_id", "workspace_id"]
+    },
+    "Interview": {
+      "title": "Interview",
+      "description": "Multi-turn qualitative conversational session with a single persona",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "persona_id": { "type": "string" },
+        "title": { "type": "string" },
+        "messages": { "type": "array" },
+        "status": { "type": "string" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["id", "workspace_id", "persona_id"]
+    },
+    "PersonaMemory": {
+      "title": "PersonaMemory",
+      "description": "Persistent memory and belief state across interview turns",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "persona_id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "short_term": { "type": "array" },
+        "long_term": { "type": "array" },
+        "contradictions": { "type": "array" },
+        "updated_at": { "type": "string" }
+      },
+      "required": ["id", "persona_id", "workspace_id"]
+    },
+    "InsightsReport": {
+      "title": "InsightsReport",
+      "description": "Extracted executive insights and market viability report",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "viability_score": { "type": "object" },
+        "key_findings": { "type": "array" },
+        "themes": { "type": "array" },
+        "tensions": { "type": "array" },
+        "recommendations": { "type": "array" },
+        "segment_breakdown": { "type": "array" },
+        "created_at": { "type": "string" }
+      },
+      "required": ["id", "workspace_id"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "Background generation or synthesis task tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "type": { "type": "string" },
+        "status": { "type": "string" },
+        "progress": { "type": "number" },
+        "total": { "type": "number" },
+        "message": { "type": "string" },
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" }
+      },
+      "required": ["id", "workspace_id", "type", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile records indexed by auth UID"
+    },
+    "/workspaces/{workspaceId}": {
+      "schema": "Workspace",
+      "description": "Workspaces owned by users"
+    },
+    "/workspaces/{workspaceId}/personas/{personaId}": {
+      "schema": "Persona",
+      "description": "Personas belonging to a specific workspace"
+    },
+    "/workspaces/{workspaceId}/surveys/{surveyId}": {
+      "schema": "Survey",
+      "description": "Surveys run within a workspace"
+    },
+    "/workspaces/{workspaceId}/surveys/{surveyId}/responses/{responseId}": {
+      "schema": "SurveyResponse",
+      "description": "Individual persona answers to surveys"
+    },
+    "/workspaces/{workspaceId}/interviews/{interviewId}": {
+      "schema": "Interview",
+      "description": "Qualitative interviews conducted with personas"
+    },
+    "/workspaces/{workspaceId}/memories/{memoryId}": {
+      "schema": "PersonaMemory",
+      "description": "Belief and memory tracking per persona"
+    },
+    "/workspaces/{workspaceId}/insights/{insightId}": {
+      "schema": "InsightsReport",
+      "description": "Synthesized insights dossiers"
+    },
+    "/workspaces/{workspaceId}/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Background generation tasks"
+    }
+  }
+}
